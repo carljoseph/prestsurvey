@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0 10px 0 10px;
+}
+
+#map-container {
+    display: flex; 
+}
+
+#controls, #image-info {
+    width: 200px; 
+    padding: 10px;
+}
+
+#controls label {
+    font-size: 0.8em;
+}
+
+#map {
+    height: 500px;
+    flex-grow: 1;
+}
+
+#info-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+#selected-image-container {
+    flex-basis: calc(100% - 200px);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#selected-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}

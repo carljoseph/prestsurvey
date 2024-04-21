@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Data on Google Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="map.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap" async defer></script>
+</head>
+<body>
+    <h1>University of Melbourne Social Survey</h1>
+    <p>Lorem ipsum ...</p>
+    <hr/>
+    <div id="map-container">
+        <div id="controls">
+            <p>Select the interview dates you want to display</p>
+            <!-- checkboxes added by map.js -->
+        </div>
+        <div id="map"></div>
+    </div>
+    <div id="info-container">
+        <div id="image-info">
+            <div id="inferred-address"></div>
+            <div id="interview-date"></div>
+        </div>
+        <div id="selected-image-container">
+            <p id="image-placeholder">Select a marker from the map to view the survey image</p>
+            <img src="" alt="Selected Location" id="selected-image" style="display: none;" />
+        </div>
+    </div>
+</body>
+</html>
