@@ -119,7 +119,6 @@ function initMap() {
                 markers.push(marker);
             });
 
-            // If a marker ID is present in the URL, find and trigger click on that marker
             const urlParams = new URLSearchParams(window.location.search);
             const markerId = urlParams.get('id');
             if (markerId) {
