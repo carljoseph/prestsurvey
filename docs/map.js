@@ -119,7 +119,7 @@ function showLocationInfo(marker) {
         <h3>Inferred information</h3>
         <p>${title}</p>
         <p>Interviewed by ${interviewer || 'Unknown'} on ${inferred_interview_date || 'Unknown'}</p>
-        <p><b>Archive identifier:</b><br>${archive_identifier} page ${archive_page_no}</p>
+        <p><b>Archive identifier:</b><br>${archive_identifier} (Page ${archive_page_no})</p>
     `;
     document.getElementById('image-info').innerHTML = content;
 }
