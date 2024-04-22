@@ -72,7 +72,7 @@ function filterMarkersByMonth() {
 }
 
 function initMap() {
-    var startLatLng = {lat: -37.7430, lng: 144.9665};
+    var startLatLng = { lat: -37.7430, lng: 144.9665 };
     var mapOptions = {
         zoom: 14,
         center: startLatLng
@@ -87,14 +87,16 @@ function initMap() {
                     position: new google.maps.LatLng(location.geocode_latitude, location.geocode_longitude),
                     map: map,
                     title: location.inferred_address,
-                    icon: createMarkerIcon('blue'), // Default marker color
+                    icon: createMarkerIcon('blue'),
                     visible: true
                 });
 
+                // Set properties from the JSON data on the marker object
                 marker.set('inferred_interview_date', location.inferred_interview_date);
-                marker.set('image_filename', location.image_filename);
+                marker.set('image_filename', location.filename); // Ensure this matches the JSON property name
                 marker.set('archive_identifier', location.archive_identifier);
                 marker.set('archive_page_no', location.archive_page_no);
+                marker.set('interviewer', location.interviewer);
 
                 marker.addListener('click', function() {
                     if (selectedMarker) {
@@ -103,27 +105,29 @@ function initMap() {
                     selectedMarker = marker;
                     marker.setIcon(createMarkerIcon('red'));
 
+                    // Pass the properties directly to the showLocationInfo function
                     showLocationInfo(
                         marker.get('title'),
                         marker.get('inferred_interview_date'),
                         marker.get('archive_identifier'),
-                        marker.get('archive_page_no')
+                        marker.get('archive_page_no'),
+                        marker.get('interviewer')
                     );
-                    showImageForMarker(marker.get('image_filename'));
+                    showImageForMarker(marker.get('image_filename')); // Use the image_filename from the marker
 
-                    const uniqueId = `${marker.get('archive_identifier')}-${marker.get('archive_page_no')}`;
-                    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${encodeURIComponent(uniqueId)}`;
+                    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${encodeURIComponent(marker.get('archive_identifier') + '-' + marker.get('archive_page_no'))}`;
                     window.history.pushState({path: newUrl}, '', newUrl);
                 });
 
                 markers.push(marker);
             });
 
+            // Check URL for query parameter and trigger click event on corresponding marker
             const urlParams = new URLSearchParams(window.location.search);
             const markerId = urlParams.get('id');
             if (markerId) {
                 markers.forEach(marker => {
-                    const uniqueId = `${marker.get('archive_identifier')}-${marker.get('archive_page_no')}`;
+                    const uniqueId = marker.get('archive_identifier') + '-' + marker.get('archive_page_no');
                     if (uniqueId === markerId) {
                         google.maps.event.trigger(marker, 'click');
                     }
@@ -133,13 +137,12 @@ function initMap() {
         .catch(error => console.error('Error fetching JSON:', error));
 }
 
-function showLocationInfo(address, date, archiveIdentifier, archivePageNo) {
+function showLocationInfo(address, date, archive_identifier, archive_page_no, interviewer) {
     var content = '<h3>Inferred information</h3>' +
-                  '<p>The following info has been extracted from the image:</p>' +
-                  '<p><b>Address:</b><br>' + address + '</p>' +
-                  '<p><b>Interview date:</b><br>' + date + '</p>' +
-                  '<p><b>Archive Identifier:</b><br>' + archiveIdentifier + '</p>' +
-                  '<p><b>Archive Page Number:</b><br>' + archivePageNo + '</p>';
+                  '<p>' + address + '</p>' +
+                  '<p>Interviewed by ' + (interviewer || 'Unknown') +
+                  ' on ' + (date || 'Unknown') + '</p>' +
+                  '<p><b>Archive identifier:</b><br>' + archive_identifier + ' p. ' + archive_page_no + '</p>';
 
     document.getElementById('image-info').innerHTML = content;
 }
