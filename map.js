@@ -1,5 +1,5 @@
 import Config from './config.js';
-
+ 
 function loadGoogleMapsApi() {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${Config.apiKey}&callback=initMap`;
