@@ -3,8 +3,8 @@
 <head>
     <title>Prest Social Survey Viewer</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="map.js" defer></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCM2ItkeZw0o6oOCvpQ5neK2O4eAW1Btk&callback=initMap" async defer></script>
+    <script type="module" src="map.js" defer></script>
+    
 </head>
 <body>
     <h1>University of Melbourne Social Survey</h1>
@@ -21,6 +21,8 @@
         <div id="image-info">
             <div id="inferred-address"></div>
             <div id="interview-date"></div>
+            <div id="archive-identifier"></div>
+            <div id="archive-page-no"></div>
         </div>
         <div id="selected-image-container">
             <p id="image-placeholder">Select a marker from the map to view the survey image</p>

@@ -1,5 +1,15 @@
-let markers = [];
+import Config from './config.js';
 
+function loadGoogleMapsApi() {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${Config.apiKey}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+loadGoogleMapsApi();
+
+let markers = [];
 
 function addMonthCheckboxes() {
     const controls = document.getElementById('controls');
@@ -58,9 +68,16 @@ function initMap() {
 
                 marker.set('inferred_interview_date', location.inferred_interview_date);
                 marker.set('image_filename', location.image_filename);
+                marker.set('archive_identifier', location.archive_identifier);
+                marker.set('archive_page_no', location.archive_page_no);
 
                 marker.addListener('click', function() {
-                    showLocationInfo(marker.get('title'), marker.get('inferred_interview_date'));
+                    showLocationInfo(
+                        marker.get('title'),
+                        marker.get('inferred_interview_date'),
+                        marker.get('archive_identifier'),
+                        marker.get('archive_page_no')
+                    );
                     showImageForMarker(marker.get('image_filename'));
                 });
 
@@ -70,11 +87,13 @@ function initMap() {
         .catch(error => console.error('Error fetching JSON:', error));
 }
 
-function showLocationInfo(address, date) {
+function showLocationInfo(address, date, archiveIdentifier, archivePageNo) {
     var content =   '<h3>Inferred information</h3>' + 
                     '<p>The following info has been extracted from the image ...</p>' +
                     '<p><b>Address:</b><br>' + address + '<br><br>' +
-                    '<b>Interview date:</b><br>' + date + '</p>';
+                    '<b>Interview date:</b><br>' + date + '<br><br>' +
+                    '<b>Archive Identifier:</b><br>' + archiveIdentifier + '<br><br>' +
+                    '<b>Archive Page Number:</b><br>' + archivePageNo + '</p>';
     
     document.getElementById('image-info').innerHTML = content;
 }
@@ -92,7 +111,6 @@ function showImageForMarker(imageFilename) {
         imagePlaceholder.style.display = 'block';
     }
 }
-
 
 window.initMap = initMap;
 
