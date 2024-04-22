@@ -31,6 +31,20 @@ function addMonthCheckboxes() {
         controls.appendChild(label);
         controls.appendChild(document.createElement('br'));
     });
+
+    // Add an "Empty" checkbox for markers with empty inferred_interview_date
+    const emptyLabel = document.createElement('label');
+    const emptyCheckbox = document.createElement('input');
+    emptyCheckbox.type = 'checkbox';
+    emptyCheckbox.className = 'month-checkbox';
+    emptyCheckbox.value = "empty";
+    emptyCheckbox.checked = true;
+    emptyCheckbox.addEventListener('change', filterMarkersByMonth);
+
+    emptyLabel.appendChild(emptyCheckbox);
+    emptyLabel.appendChild(document.createTextNode(' Empty Dates'));
+    controls.appendChild(emptyLabel);
+    controls.appendChild(document.createElement('br'));
 }
 
 function filterMarkersByMonth() {
@@ -39,12 +53,16 @@ function filterMarkersByMonth() {
     let checkedMonths = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
 
     markers.forEach(function(marker) {
-        let markerDate = new Date(marker.get('inferred_interview_date'));
-        let markerMonth = markerDate.getMonth().toString();
-        let isVisible = checkedMonths.includes(markerMonth);
+        let markerDate = marker.get('inferred_interview_date');
+        // Check if the markerDate is empty and if the "Empty" checkbox is checked
+        let isEmptyDate = !markerDate && checkedMonths.includes("empty");
+        let markerMonth = markerDate ? new Date(markerDate).getMonth().toString() : null;
+        let isVisible = isEmptyDate || checkedMonths.includes(markerMonth);
         marker.setVisible(isVisible);
     });
 }
+
+// The rest of your JavaScript code remains unchanged
 
 function initMap() {
     var startLatLng = {lat: -37.7430, lng: 144.9665};
