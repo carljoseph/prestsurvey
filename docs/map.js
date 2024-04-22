@@ -121,7 +121,7 @@ function showImageForMarker(imageFilename) {
     var imagePlaceholder = document.getElementById('image-placeholder');
 
     if (imageFilename) {
-        imageElement.src = 'prestimages/' + imageFilename;
+        imageElement.src = 'images/' + imageFilename;
         imageElement.style.display = 'block';
         imagePlaceholder.style.display = 'none';
     } else {
