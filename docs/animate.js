@@ -70,12 +70,15 @@ function populateInterviewerDropdown() {
         option.textContent = interviewer;
         interviewerSelect.appendChild(option);
     });
-    interviewerSelect.addEventListener('change', (e) => {
-        selectedInterviewer = e.target.value;
-        console.log(`Selected interviewer: ${selectedInterviewer}`);
+
+    
+    if (interviewerSelect.options.length > 0) {
+        selectedInterviewer = interviewerSelect.options[0].value;
+        interviewerSelect.value = selectedInterviewer; // Set the dropdown to show the first interviewer
+        console.log(`Default selected interviewer: ${selectedInterviewer}`);
+        // Generate datesWithMarkers for the default selected interviewer
         datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
-        resetAnimation();
-    });
+    }
 }
 
 function generateDatesWithMarkers(filteredMarkers) {
