@@ -65,7 +65,15 @@ function loadMarkers() {
 
 function populateInterviewerDropdown() {
     const interviewerSelect = document.getElementById('interviewer-select');
-    interviewerSelect.innerHTML = ''; 
+    interviewerSelect.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select interviewer...';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    interviewerSelect.appendChild(defaultOption);
+
     interviewers.forEach(interviewer => {
         const option = document.createElement('option');
         option.value = interviewer;
@@ -73,15 +81,17 @@ function populateInterviewerDropdown() {
         interviewerSelect.appendChild(option);
     });
 
-    
-    if (interviewerSelect.options.length > 0) {
-        selectedInterviewer = interviewerSelect.options[0].value;
-        interviewerSelect.value = selectedInterviewer;
-        console.log(`Default selected interviewer: ${selectedInterviewer}`);
-        datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
-    }
-}
+    selectedInterviewer = null;
 
+    interviewerSelect.addEventListener('change', (e) => {
+        selectedInterviewer = e.target.value;
+        console.log(`Selected interviewer: ${selectedInterviewer}`);
+        if (selectedInterviewer) {
+            datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
+            resetAnimation();
+        }
+    });
+}
 function generateDatesWithMarkers(filteredMarkers) {
     const dates = filteredMarkers.map(marker => marker.date);
     return [...new Set(dates)].sort();
