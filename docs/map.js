@@ -1,14 +1,53 @@
 import Config from './config.js';
-
+let map;
 let markers = [];
-let selectedMarker = null;
+let interviewers = new Set();
 
-function loadGoogleMapsApi(callback) {
+
+export function loadGoogleMapsApi(callbackName) {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${Config.apiKey}&callback=${callback}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${Config.apiKey}&callback=${callbackName}`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
+}
+
+export function initMap() {
+    const startLatLng = { lat: -37.7430, lng: 144.9665 };
+    const mapOptions = { zoom: 14, center: startLatLng };
+    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    fetch('data/validated_addresses.json')
+        .then(response => response.json())
+        .then(locations => {
+            markers = locations.map(location => {
+                const marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(location.geocode_latitude, location.geocode_longitude),
+                    map: map,
+                    title: location.inferred_address,
+                    icon: createMarkerIcon('blue'),
+                    visible: true
+                });
+
+                marker.set('inferred_interview_date', location.inferred_interview_date);
+                marker.set('image_filename', location.filename);
+                marker.set('archive_identifier', location.archive_identifier);
+                marker.set('archive_page_no', location.archive_page_no);
+                marker.set('interviewer', location.interviewer);
+
+                marker.addListener('click', function() {
+                    updateSelectedMarker(marker);
+                    showLocationInfo(marker);
+                    showImageForMarker(marker.get('image_filename'));
+                    updateUrl(marker);
+                });
+
+                return marker;
+            });
+
+            checkUrlForMarker();
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
 }
 
 function createMarkerIcon(color) {
@@ -68,44 +107,6 @@ function filterMarkersByMonth() {
         let isVisible = isEmptyDate || checkedMonths.includes(markerMonth);
         marker.setVisible(isVisible);
     });
-}
-
-function initMap() {
-    const startLatLng = { lat: -37.7430, lng: 144.9665 };
-    const mapOptions = { zoom: 14, center: startLatLng };
-    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    fetch('data/validated_addresses.json')
-        .then(response => response.json())
-        .then(locations => {
-            markers = locations.map(location => {
-                const marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(location.geocode_latitude, location.geocode_longitude),
-                    map: map,
-                    title: location.inferred_address,
-                    icon: createMarkerIcon('blue'),
-                    visible: true
-                });
-
-                marker.set('inferred_interview_date', location.inferred_interview_date);
-                marker.set('image_filename', location.filename);
-                marker.set('archive_identifier', location.archive_identifier);
-                marker.set('archive_page_no', location.archive_page_no);
-                marker.set('interviewer', location.interviewer);
-
-                marker.addListener('click', function() {
-                    updateSelectedMarker(marker);
-                    showLocationInfo(marker);
-                    showImageForMarker(marker.get('image_filename'));
-                    updateUrl(marker);
-                });
-
-                return marker;
-            });
-
-            checkUrlForMarker();
-        })
-        .catch(error => console.error('Error fetching JSON:', error));
 }
 
 function showLocationInfo(marker) {

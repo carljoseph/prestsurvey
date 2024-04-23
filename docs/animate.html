@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prest Social Survey Viewer - Animation</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="animate.js" defer></script>
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+</head>
+<body>
+    <h1>University of Melbourne Social Survey</h1>
+    <p>A simple webpage that displays the location and images of the <a href="https://arc.net/l/quote/ifywonaq">University of Melbourne Social Survey</a> conducted by Wilfred Prest between 1941 - 1943. This site only includes survey data from Coburg and Pascoe Vale, Victoria.</p>
+    <hr/>
+    <div id="map-container">
+        <div id="controls">
+            <select id="interviewer-select"></select>
+            <button id="show-animation">Show</button>
+            <div id="current-date-display"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+    <div id="info-container">
+        <div id="image-info">
+            <div id="inferred-address"></div>
+            <div id="interview-date"></div>
+            <div id="archive-identifier"></div>
+            <div id="archive-page-no"></div>
+        </div>
+        <div id="selected-image-container">
+            <p id="image-placeholder">Select a marker from the map to view the survey image</p>
+            <img src="" alt="Selected Location" id="selected-image" style="display: none;" />
+        </div>
+    </div>
+    <div id="footer">
+        <p>Prest Social Survey Viewer © 2024 by Carl Joseph is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><br>
+        Code available on <a href="https://github.com/carljoseph/prestsurvey">GitHub</a></a></p>
+    </div>
+</body>
+</html> 
