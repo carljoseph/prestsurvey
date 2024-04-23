@@ -29,10 +29,12 @@ function createMap() {
 }
 
 function addMarker(location) {
+    const icon = createMarkerIcon('red');
     const marker = new google.maps.Marker({
         position: { lat: location.geocode_latitude, lng: location.geocode_longitude },
         map: map,
         title: location.inferred_address,
+        icon: icon,
     });
     marker.interviewer = location.interviewer || 'Unknown';
     marker.date = location.inferred_interview_date;
@@ -74,9 +76,8 @@ function populateInterviewerDropdown() {
     
     if (interviewerSelect.options.length > 0) {
         selectedInterviewer = interviewerSelect.options[0].value;
-        interviewerSelect.value = selectedInterviewer; // Set the dropdown to show the first interviewer
+        interviewerSelect.value = selectedInterviewer;
         console.log(`Default selected interviewer: ${selectedInterviewer}`);
-        // Generate datesWithMarkers for the default selected interviewer
         datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
     }
 }
@@ -96,6 +97,16 @@ function generateDatesForYear(year) {
     return dates;
 }
 
+function createMarkerIcon(color) {
+    return {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: color,
+        fillOpacity: 1,
+        strokeColor: 'white',
+        strokeWeight: 1,
+        scale: 10,
+    };
+}
 
 function displayMarkersForDate(date) {
     markers.forEach(marker => marker.setMap(null)); 
