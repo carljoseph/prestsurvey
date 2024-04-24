@@ -129,3 +129,32 @@ body {
     width: 70%;
     text-align: center;
 }
+
+#menu {
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.6;
+}
+
+#menu ul {
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+#menu li {
+    display: inline;
+    padding-right: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #0056b3;
+    font-family: Arial, sans-serif;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #8000b3;
+    text-decoration: underline;
+}

@@ -4,8 +4,8 @@ let map;
 let markers = [];
 let interviewers = new Set();
 let animationInterval;
-let animationTimeoutWithMarkers = 700; // Timeout for days with markers
-let animationTimeoutWithoutMarkers = 20; // Timeout for days without markers
+let animationTimeoutWithMarkers = 700;
+let animationTimeoutWithoutMarkers = 20;
 let isAnimationPlaying = false;
 let currentDateIndex = 0;
 let datesIn1942 = generateDatesForYear(1942);
@@ -120,7 +120,7 @@ function createMarkerIcon(color) {
 
 function formatDateToDisplay(dateString) {
     const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-    const date = new Date(dateString + 'T00:00:00'); // Add time part to ensure correct date
+    const date = new Date(dateString + 'T00:00:00');
     return date.toLocaleDateString('en-US', dateOptions);
 }
 
