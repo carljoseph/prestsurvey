@@ -1,7 +1,7 @@
 import Config from './config.js';
 let map;
 let markers = [];
-let interviewers = new Set();
+let selectedMarker = null;
 
 
 export function loadGoogleMapsApi(callbackName) {
@@ -79,7 +79,7 @@ function addMonthCheckboxes() {
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(` ${month} 1942`));
         controls.appendChild(label);
-        controls.appendChild(document.createElement('br'));
+        //controls.appendChild(document.createElement('br'));
     });
 
     const emptyLabel = document.createElement('label');
@@ -161,10 +161,8 @@ function updateSelectedMarker(marker) {
     marker.setIcon(createMarkerIcon('red'));
 }
 
-// Assign initMap to the window object to make it globally accessible
 window.initMap = initMap;
 
-// Initialization
 document.addEventListener('DOMContentLoaded', function() {
     loadGoogleMapsApi('initMap');
     addMonthCheckboxes();

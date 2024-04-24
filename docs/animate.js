@@ -118,10 +118,16 @@ function createMarkerIcon(color) {
     };
 }
 
-function displayMarkersForDate(date) {
-    markers.forEach(marker => marker.setMap(null)); 
+function formatDateToDisplay(dateString) {
+    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const date = new Date(dateString + 'T00:00:00'); // Add time part to ensure correct date
+    return date.toLocaleDateString('en-US', dateOptions);
+}
 
-    const markersForDate = markers.filter(marker => 
+function displayMarkersForDate(date) {
+    markers.forEach(marker => marker.setMap(null));
+
+    const markersForDate = markers.filter(marker =>
         marker.interviewer === selectedInterviewer && marker.date === date
     );
 
@@ -129,10 +135,11 @@ function displayMarkersForDate(date) {
 
     markersForDate.forEach(marker => marker.setMap(map));
 
+    const formattedDate = formatDateToDisplay(date);
     const currentDateDisplay = document.getElementById('current-date-display');
-    currentDateDisplay.textContent = markersForDate.length > 0
-        ? `Showing entries for: ${date}`
-        : `No entries for: ${date}`;
+    currentDateDisplay.innerHTML = markersForDate.length > 0
+        ? `Showing:<br>${formattedDate}`
+        : `No entries for:<br>${formattedDate}`;
 
     const timeoutDuration = markersForDate.length > 0 ? animationTimeoutWithMarkers : animationTimeoutWithoutMarkers;
 
@@ -142,7 +149,7 @@ function displayMarkersForDate(date) {
             setTimeout(() => displayMarkersForDate(datesIn1942[currentDateIndex]), timeoutDuration);
         } else {
             pauseAnimation();
-            currentDateIndex = 0; 
+            currentDateIndex = 0;
         }
     }
 }
