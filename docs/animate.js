@@ -53,7 +53,6 @@ function loadMarkers() {
     fetch('data/validated_addresses.json')
         .then(response => response.json())
         .then(data => {
-            console.log("JSON data loaded:", data); 
             data.forEach(location => {
                 if (location.interviewer) {
                     interviewers.add(location.interviewer);
@@ -97,12 +96,23 @@ function populateInterviewerDropdown() {
             datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
             resetAnimation();
         }
+        displayMarkersForInterviewer(selectedInterviewer);
     });
 }
+
 function generateDatesWithMarkers(filteredMarkers) {
     const dates = filteredMarkers.map(marker => marker.date);
     return [...new Set(dates)].sort();
 }
+
+
+function displayMarkersForInterviewer(interviewerName) {
+    markers.forEach(marker => marker.setMap(null));
+    markers.filter(marker => marker.interviewer === interviewerName).forEach(marker => {
+        marker.setMap(map);
+    });
+}
+
 
 function generateDatesForYear(year) {
     const startDate = new Date(`${year}-01-01`);
