@@ -96,6 +96,11 @@ class MapApp {
       interviewerSelect.appendChild(option);
     });
 
+    this.selectedInterviewer = 'all';
+    this.datesWithMarkers = this.generateDatesWithMarkers(this.markers);
+    this.resetAnimation();
+    this.displayAllMarkers();
+
     interviewerSelect.addEventListener('change', (e) => {
       this.selectedInterviewer = e.target.value;
       if (this.selectedInterviewer === 'all') {
