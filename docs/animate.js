@@ -73,12 +73,20 @@ function populateInterviewerDropdown() {
     const interviewerSelect = document.getElementById('interviewer-select');
     interviewerSelect.innerHTML = '';
 
+    /*
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Select interviewer...';
     defaultOption.disabled = true;
     defaultOption.selected = true;
     interviewerSelect.appendChild(defaultOption);
+    */
+
+    const showAllOption = document.createElement('option');
+    showAllOption.value = 'all';
+    showAllOption.textContent = 'Show all';
+    showAllOption.selected = true;
+    interviewerSelect.appendChild(showAllOption);
 
     interviewers.forEach(interviewer => {
         const option = document.createElement('option');
@@ -92,12 +100,20 @@ function populateInterviewerDropdown() {
     interviewerSelect.addEventListener('change', (e) => {
         selectedInterviewer = e.target.value;
         console.log(`Selected interviewer: ${selectedInterviewer}`);
-        if (selectedInterviewer) {
+        if (selectedInterviewer === 'all') {
+            datesWithMarkers = generateDatesWithMarkers(markers);
+            resetAnimation();
+            displayAllMarkers();
+        } else {
             datesWithMarkers = generateDatesWithMarkers(markers.filter(marker => marker.interviewer === selectedInterviewer));
             resetAnimation();
+            displayMarkersForInterviewer(selectedInterviewer);
         }
-        displayMarkersForInterviewer(selectedInterviewer);
     });
+}
+
+function displayAllMarkers() {
+    markers.forEach(marker => marker.setMap(map));
 }
 
 function generateDatesWithMarkers(filteredMarkers) {
@@ -112,7 +128,6 @@ function displayMarkersForInterviewer(interviewerName) {
         marker.setMap(map);
     });
 }
-
 
 function generateDatesForYear(year) {
     const startDate = new Date(`${year}-01-01`);
@@ -142,11 +157,17 @@ function formatDateToDisplay(dateString) {
 }
 
 function displayMarkersForDate(date) {
+    console.log('Date: ', date);
     markers.forEach(marker => marker.setMap(null));
 
-    const markersForDate = markers.filter(marker =>
-        marker.interviewer === selectedInterviewer && marker.date === date
-    );
+    let markersForDate;
+    if (selectedInterviewer === 'all') {
+        markersForDate = markers.filter(marker => marker.date === date);
+    } else {
+        markersForDate = markers.filter(marker =>
+            marker.interviewer === selectedInterviewer && marker.date === date
+        );
+    }
 
     markersForDate.forEach(marker => marker.setMap(map));
 
@@ -232,8 +253,8 @@ function prevStep() {
     let found = false;
     for (let i = currentDateIndex - 1; i >= 0; i--) {
         const date = datesIn1942[i];
-        if (datesWithMarkers.includes(date) && markers.some(marker => 
-            marker.date === date && marker.interviewer === selectedInterviewer)) {
+        if (datesWithMarkers.includes(date) && (selectedInterviewer === 'all' || markers.some(marker => 
+            marker.date === date && marker.interviewer === selectedInterviewer))) {
             currentDateIndex = i;
             found = true;
             break;
@@ -250,8 +271,8 @@ function nextStep() {
     let found = false;
     for (let i = currentDateIndex + 1; i < datesIn1942.length; i++) {
         const date = datesIn1942[i];
-        if (datesWithMarkers.includes(date) && markers.some(marker => 
-            marker.date === date && marker.interviewer === selectedInterviewer)) {
+        if (datesWithMarkers.includes(date) && (selectedInterviewer === 'all' || markers.some(marker => 
+            marker.date === date && marker.interviewer === selectedInterviewer))) {
             currentDateIndex = i;
             found = true;
             break;
