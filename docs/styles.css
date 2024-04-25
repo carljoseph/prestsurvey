@@ -1,7 +1,20 @@
+/* Global styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #0056b3;
+    font-family: Arial, sans-serif;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #8000b3;
+    text-decoration: underline;
 }
 
 #footer {
@@ -10,57 +23,39 @@ body {
     padding: 10px;
 }
 
+/* Layout styles */
 #map-container {
     display: flex; 
-    height: 100vh;
+    height: 80vh;
 }
 
 #map {
     height: 100%;
-    flex-grow: 1; /* Map takes up the remaining space */
+    flex-grow: 1;
 }
 
-#controls {
-    width: 250px; /* Fixed width for controls */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px; /* Padding inside the controls */
-}
-
-/* Make info-container the same width as controls */
 #info-container {
-    margin-top: 10px; /* Consistent padding with controls */
+    margin-top: 10px;
     display: flex;
 }
 
-/* Make selected-image-container take up the remaining space like the map */
-#selected-image-container {
-    flex-grow: 0;
-    flex-basis: calc(100% - 250px - 20px);
-    padding: 10px; /* Consistent padding with map */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#image-info {
-    width: 250px; /* Same width as controls */
-    padding: 10px;
+/* Control panel (buttons, inputs, etc.) */
+#controls {
+    width: 250px;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    align-items: center;
+    padding: 10px;
 }
 
-#selected-image {
-    width: 100%; /* Image spans the full width of its container */
-    height: auto; /* Maintain aspect ratio */
-    display: block;
+#controls select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
-/* ... rest of the existing styles ... */
-
-/* Styles for left-aligned controls and checkboxes */
 .left-aligned-controls {
     align-items: flex-start;
 }
@@ -72,16 +67,7 @@ body {
     margin-bottom: 5px;
 }
 
-/* Styles for the select dropdown */
-#controls select {
-    width: 100%;
-    padding: 10px;
-    font-size: 1em;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-/* Styles for the button container and buttons */
+/* Buttons and their container */
 .button-container {
     display: flex;
     justify-content: center;
@@ -111,15 +97,38 @@ body {
     background-color: #9b2833;
 }
 
-#reset {
-    background-color: #dc3545;
-}
-
 .button-container button:active,
 .button-container button:focus,
 #reset:active,
 #reset:focus {
     outline: none;
+}
+#reset {
+    background-color: #dc3545;
+}
+
+/* Display panels */
+#selected-image-container {
+    flex-grow: 0;
+    flex-basis: calc(100% - 250px - 20px);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#image-info {
+    width: 250px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+#selected-image {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 #current-date-display {
@@ -128,33 +137,4 @@ body {
     padding: 20px;
     width: 70%;
     text-align: center;
-}
-
-#menu {
-    width: 100%;
-    overflow: hidden;
-    line-height: 1.6;
-}
-
-#menu ul {
-    padding: 0;
-    list-style-type: none;
-    margin: 0;
-}
-
-#menu li {
-    display: inline;
-    padding-right: 10px;
-}
-
-a {
-    text-decoration: none;
-    color: #0056b3;
-    font-family: Arial, sans-serif;
-    text-decoration: underline;
-}
-
-a:hover {
-    color: #8000b3;
-    text-decoration: underline;
 }

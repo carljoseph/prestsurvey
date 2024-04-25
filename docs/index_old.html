@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Prest Social Survey Viewer - Animation</title>
+    <title>Prest Social Survey Viewer</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="mapapp.js" defer></script>
+    <script type="module" src="map.js" defer></script>
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
 </head>
 <body>
@@ -17,16 +17,9 @@
     </div>
     <hr/>
     <div id="map-container">
-        <div id="controls" class="centered-controls">
-            <p>Select an interviewer you would like to show</p>
-            <select id="interviewer-select"></select><br>
-            <div class="button-container">
-                <button id="prev-step">&lt;&lt;</button>
-                <button id="play-pause">Play</button>
-                <button id="next-step">&gt;&gt;</button>
-                <button id="reset">Reset</button>
-            </div>
-            <div id="current-date-display"></div>
+        <div id="controls" class="left-aligned-controls">
+            <p>Select the interview dates you want to display</p>
+            <!-- checkboxes added by map.js -->
         </div>
         <div id="map"></div>
     </div>
@@ -43,7 +36,7 @@
         </div>
     </div>
     <div id="footer">
-        <p>Prest Social Survey Viewer @copy; 2024 by Carl Joseph is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><br>
+        <p>Prest Social Survey Viewer &copy; 2024 by Carl Joseph is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a><br>
         Code available on <a href="https://github.com/carljoseph/prestsurvey">GitHub</a></a></p>
     </div>
 </body>
