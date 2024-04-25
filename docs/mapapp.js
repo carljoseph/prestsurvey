@@ -58,12 +58,13 @@ class MapApp {
   }
 
   addMarker(location) {
-    const icon = this.createMarkerIcon('red');
+    const defaultIcon = this.createMarkerIcon('red');
+    const selectedIcon = this.createMarkerIcon('blue');
     const marker = new google.maps.Marker({
       position: { lat: location.geocode_latitude, lng: location.geocode_longitude },
       map: this.map,
       title: location.inferred_address,
-      icon: icon,
+      icon: defaultIcon,
       archive_identifier: location.archive_identifier,
       archive_page_no: location.archive_page_no,
       interviewer: location.interviewer || 'Unknown',
@@ -71,11 +72,12 @@ class MapApp {
       imageFilename: location.filename,
       date: location.inferred_interview_date,
     });
-
+  
     google.maps.event.addListener(marker, 'click', () => {
+      marker.setIcon(selectedIcon);
       this.showLocationInfoAndImage(marker);
     });
-
+  
     this.markers.push(marker);
   }
 
@@ -143,6 +145,7 @@ class MapApp {
     this.pauseAnimation();
     this.currentDateIndex = 0;
     document.getElementById('current-date-display').textContent = '';
+    document.getElementById('current-date-display').style.display = 'none';
     this.markers.forEach(marker => marker.setMap(null));
   }
 
@@ -215,10 +218,12 @@ class MapApp {
   
     const formattedDate = this.formatDateToDisplay(date);
     const currentDateDisplay = document.getElementById('current-date-display');
+    
     currentDateDisplay.innerHTML = markersForDate.length > 0
         ? `Showing:<br>${formattedDate}`
         : `No entries for:<br>${formattedDate}`;
-  
+    currentDateDisplay.style.display = 'block';
+
     const timeoutDuration = markersForDate.length > 0 ? this.animationTimeoutWithMarkers : this.animationTimeoutWithoutMarkers;
   
     if (this.isAnimationPlaying) {

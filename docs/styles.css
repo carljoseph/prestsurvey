@@ -39,7 +39,7 @@ a:hover {
     display: flex;
 }
 
-/* Control panel (buttons, inputs, etc.) */
+/* Controls - select, play, pause, etc. */
 #controls {
     width: 250px;
     display: flex;
@@ -56,18 +56,6 @@ a:hover {
     margin-bottom: 10px;
 }
 
-.left-aligned-controls {
-    align-items: flex-start;
-}
-
-.left-aligned-controls .month-checkbox,
-.left-aligned-controls label {
-    align-self: flex-start;
-    font-size: 0.8em;
-    margin-bottom: 5px;
-}
-
-/* Buttons and their container */
 .button-container {
     display: flex;
     justify-content: center;
