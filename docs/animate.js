@@ -35,11 +35,19 @@ function addMarker(location) {
         map: map,
         title: location.inferred_address,
         icon: icon,
+        archive_identifier: location.archive_identifier,
+        archive_page_no: location.archive_page_no,
+        interviewer: location.interviewer || 'Unknown',
+        inferred_interview_date: location.inferred_interview_date,
+        imageFilename: location.filename,
+        date: location.inferred_interview_date,
     });
-    marker.interviewer = location.interviewer || 'Unknown';
-    marker.date = location.inferred_interview_date;
+    google.maps.event.addListener(marker, 'click', function() {
+        showLocationInfoAndImage(this);
+    });
     markers.push(marker);
 }
+
 
 function loadMarkers() {
     fetch('data/validated_addresses.json')
@@ -47,7 +55,6 @@ function loadMarkers() {
         .then(data => {
             console.log("JSON data loaded:", data); 
             data.forEach(location => {
-                console.log("Current location loaded:", location); 
                 if (location.interviewer) {
                     interviewers.add(location.interviewer);
                     addMarker(location);
@@ -131,8 +138,6 @@ function displayMarkersForDate(date) {
         marker.interviewer === selectedInterviewer && marker.date === date
     );
 
-    console.log(`Found ${markersForDate.length} markers for date: ${date} and interviewer: ${selectedInterviewer}`);
-
     markersForDate.forEach(marker => marker.setMap(map));
 
     const formattedDate = formatDateToDisplay(date);
@@ -153,6 +158,31 @@ function displayMarkersForDate(date) {
         }
     }
 }
+
+function showLocationInfoAndImage(marker) {
+    const title = marker.get('title');
+    const inferred_interview_date = marker.get('inferred_interview_date');
+    const archive_identifier = marker.get('archive_identifier');
+    const archive_page_no = marker.get('archive_page_no');
+    const interviewer = marker.get('interviewer');
+    const imageFilename = marker.imageFilename;
+
+    const content = `
+        <h3>Inferred information</h3>
+        <p>${title}</p>
+        <p>Interviewed by ${interviewer || 'Unknown'} on ${inferred_interview_date || 'Unknown'}</p>
+        <p><b>Archive identifier:</b><br>${archive_identifier} (Page ${archive_page_no})</p>
+    `;
+    document.getElementById('image-info').innerHTML = content;
+
+    const imageElement = document.getElementById('selected-image');
+    const imagePlaceholder = document.getElementById('image-placeholder');
+    imageElement.style.display = imageFilename ? 'block' : 'none';
+    imagePlaceholder.style.display = imageFilename ? 'none' : 'block';
+    imageElement.src = imageFilename ? `images/${imageFilename}` : '';
+
+}
+
 
 function initMap() {
     createMap();

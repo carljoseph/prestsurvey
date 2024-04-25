@@ -79,7 +79,6 @@ function addMonthCheckboxes() {
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(` ${month} 1942`));
         controls.appendChild(label);
-        //controls.appendChild(document.createElement('br'));
     });
 
     const emptyLabel = document.createElement('label');
