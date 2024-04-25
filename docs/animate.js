@@ -73,15 +73,6 @@ function populateInterviewerDropdown() {
     const interviewerSelect = document.getElementById('interviewer-select');
     interviewerSelect.innerHTML = '';
 
-    /*
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Select interviewer...';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    interviewerSelect.appendChild(defaultOption);
-    */
-
     const showAllOption = document.createElement('option');
     showAllOption.value = 'all';
     showAllOption.textContent = 'Show all';
@@ -160,15 +151,7 @@ function displayMarkersForDate(date) {
     console.log('Date: ', date);
     markers.forEach(marker => marker.setMap(null));
 
-    let markersForDate;
-    if (selectedInterviewer === 'all') {
-        markersForDate = markers.filter(marker => marker.date === date);
-    } else {
-        markersForDate = markers.filter(marker =>
-            marker.interviewer === selectedInterviewer && marker.date === date
-        );
-    }
-
+    const markersForDate = getMarkersForDate(date);
     markersForDate.forEach(marker => marker.setMap(map));
 
     const formattedDate = formatDateToDisplay(date);
@@ -189,6 +172,7 @@ function displayMarkersForDate(date) {
         }
     }
 }
+
 
 function showLocationInfoAndImage(marker) {
     const title = marker.get('title');
@@ -249,12 +233,11 @@ function resetAnimation() {
 
 function prevStep() {
     pauseAnimation();
-    console.log('Stepping to previous date with markers');
     let found = false;
     for (let i = currentDateIndex - 1; i >= 0; i--) {
         const date = datesIn1942[i];
-        if (datesWithMarkers.includes(date) && (selectedInterviewer === 'all' || markers.some(marker => 
-            marker.date === date && marker.interviewer === selectedInterviewer))) {
+        const markersForDate = getMarkersForDate(date);
+        if (datesWithMarkers.includes(date) && markersForDate.length > 0) {
             currentDateIndex = i;
             found = true;
             break;
@@ -267,12 +250,11 @@ function prevStep() {
 
 function nextStep() {
     pauseAnimation();
-    console.log('Stepping to next date with markers');
     let found = false;
     for (let i = currentDateIndex + 1; i < datesIn1942.length; i++) {
         const date = datesIn1942[i];
-        if (datesWithMarkers.includes(date) && (selectedInterviewer === 'all' || markers.some(marker => 
-            marker.date === date && marker.interviewer === selectedInterviewer))) {
+        const markersForDate = getMarkersForDate(date);
+        if (datesWithMarkers.includes(date) && markersForDate.length > 0) {
             currentDateIndex = i;
             found = true;
             break;
@@ -280,6 +262,16 @@ function nextStep() {
     }
     if (found) {
         displayMarkersForDate(datesIn1942[currentDateIndex]);
+    }
+}
+
+function getMarkersForDate(date) {
+    if (selectedInterviewer === 'all') {
+        return markers.filter(marker => marker.date === date);
+    } else {
+        return markers.filter(marker => 
+            marker.interviewer === selectedInterviewer && marker.date === date
+        );
     }
 }
 
