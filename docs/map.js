@@ -152,6 +152,13 @@ function checkUrlForMarker() {
     }
 }
 
+resetMarkerIcons() {
+    const defaultIcon = this.createMarkerIcon('red');
+    this.markers.forEach(marker => {
+      marker.setIcon(defaultIcon);
+    });
+}
+
 function updateSelectedMarker(marker) {
     if (selectedMarker) {
         selectedMarker.setIcon(createMarkerIcon('blue'));
