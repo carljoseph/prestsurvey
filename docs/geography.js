@@ -15,28 +15,37 @@ function initMap() {
     'J. Grant': '#008000',
     'Rosemary Francis': '#800080',
     'Rhoda Levy': '#A52A2A',
-
-    'Anne Athenstone': '#808080', // Green
-    'B. Buston': '#808080', // Blue
-    'B. Wishart': '#808080', // Yellow
-    'Betty Bate': '#808080', // Magenta
-    'Deborah Newton': '#808080', // Cyan
-    'E. Hoberts': '#808080', // Maroon
-    'Fay Jackson': '#808080', // Olive
-    'Joyce Raymond': '#808080', // Purple
-    'Lesley Gleeson': '#808080', // Teal
-    'M. Williams': '#808080', // Navy
-    'Unsigned': '#808080', // Gray
+    'Anne Athenstone': '#808080',
+    'B. Buston': '#808080',
+    'B. Wishart': '#808080',
+    'Betty Bate': '#808080',
+    'Deborah Newton': '#808080',
+    'E. Hoberts': '#808080',
+    'Fay Jackson': '#808080',
+    'Joyce Raymond': '#808080',
+    'Lesley Gleeson': '#808080',
+    'M. Williams': '#808080',
+    'Unsigned': '#808080',
   };
   
+  const interviewerOpacities = {
+    'Pat Counihan': 1,
+    'M. Warnecke': 1,
+  };
+
 
   function getColorForInterviewer(interviewer) {
-    return interviewerColors[interviewer] || '#000000';
+    return interviewerColors[interviewer] || '#808080';
+  }
+
+  function getOpacityForInterviewer(interviewer) {
+    return interviewerOpacities[interviewer] || 0.5;
   }
 
   function addMarkers(locations) {
     locations.forEach((location) => {
       const color = getColorForInterviewer(location.interviewer);
+      const opacity = getOpacityForInterviewer(location.interviewer);
       const marker = new google.maps.Marker({
         position: { lat: location.geocode_latitude, lng: location.geocode_longitude },
         map: map,
@@ -44,9 +53,9 @@ function initMap() {
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
           fillColor: color,
-          fillOpacity: 1,
+          fillOpacity: opacity,
           strokeColor: "white",
-          strokeOpacity: 1,
+          strokeOpacity: opacity,
           strokeWeight: 1,
           scale: 10
         }
