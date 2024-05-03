@@ -23,6 +23,10 @@ a:hover {
     padding: 10px;
 }
 
+h1 {
+    padding-left: 16px;
+}
+
 /* Layout styles */
 #map-container {
     display: flex; 
@@ -37,6 +41,21 @@ a:hover {
 #info-container {
     margin-top: 10px;
     display: flex;
+}
+
+.responsive-two-columns {
+    display: flex;
+}
+
+.responsive-two-columns > * {
+    width: 100%;
+    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+    .responsive-two-columns > * {
+        width: 50%;
+    }
 }
 
 /* Controls - select, play, pause, etc. */

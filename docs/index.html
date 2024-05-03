@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Prest Social Survey Viewer - Animation</title>
+    <title>Prest Social Survey Viewer</title>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="mapapp.js" defer></script>
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
 </head>
 <body>
-    <h1>University of Melbourne Social Survey</h1>
-    <p>A simple webpage that displays the location and images of the <a href="https://arc.net/l/quote/ifywonaq">University of Melbourne Social Survey</a> conducted by Wilfred Prest between 1941 - 1943. This site only includes survey data from Coburg and Pascoe Vale, Victoria.</p>
+    <h1>Prest Social Survey Viewer</h1>
+    <div class="responsive-two-columns">
+        <div>
+            <h2>About this visualisation</h2>
+            <p>This website presents data from the <a href="https://arc.net/l/quote/ifywonaq">wartime censusy</a> conducted by Wilfred Prest for the University of Melbourne in 1941 - 1943. These surveys contain details of the living situations of working class Melbournians at the time. The map below currently includes transcribed survey data from Coburg and Pascoe Vale, Victoria.</p>
+        </div>
+        <div>
+            <h2>How to use</h2>
+            <p>The map shows the location of each survey collected.<br>
+                The <strong>play</strong> button allows you to view the progress of the data collection over time.<br>
+                You can also step through the collection by using the <strong>&lt;&lt;</strong> and <strong>&gt;&gt;</strong> buttons.<br>
+                To view the surveys collected by a <strong>specific interviewer</strong>, select their name from the drop-down.<br>
+                <strong>Clicking on a specific marker</strong> will show that survey form under the map.</p>
+        </div>
+    </div>
+
     <hr/>
     <div id="map-container">
         <div id="controls">

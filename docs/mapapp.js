@@ -162,10 +162,8 @@ class MapApp {
     const content = `
       <h3>Inferred information</h3>
       <p>${title}</p>
-      <p>Interviewed by ${interviewer || "Unknown"} on ${
-      inferred_interview_date || "Unknown"
-    }</p>
-      <p><b>Archive identifier:</b><br>${archive_identifier} (Page ${archive_page_no})</p>
+      <p>Interviewed by ${interviewer || "Unknown"}<br>on ${this.formatDateToDisplay(inferred_interview_date) || "Unknown"}</p>
+      <p><b>Archive identifier:</b><br>${archive_identifier}<br>(Page ${archive_page_no})</p>
     `;
     document.getElementById("image-info").innerHTML = content;
 
